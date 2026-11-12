@@ -152,6 +152,7 @@ jobs:
           sudo ln -sf /usr/share/zoneinfo/Asia/Jakarta /etc/localtime
           sudo apt update -y
           sudo apt install -y bc cpio flex bison git python-is-python3 tar aria2 perl wget curl lz4 libssl-dev zip
+          python2 --version
 
       - name: "✦ clone anykernel3"
         run: |
@@ -291,6 +292,19 @@ jobs:
         working-directory: ${{ env.KERNEL_NAME }}
         run: |
           curl -LSs "https://raw.githubusercontent.com/maxsteeel/nomount/refs/heads/dev/kernel/setup.sh" | bash -s master
+
+      - name: "🔧 siapkan DrvGen (MTK dct)"
+        working-directory: ${{ env.KERNEL_NAME }}
+        run: |
+          echo "== isi tools/dct =="
+          ls -la tools/dct/ || echo "::warning::tools/dct TIDAK ADA di repo"
+          echo "== shebang DrvGen.py =="
+          head -1 tools/dct/DrvGen.py | cat -A || true
+          echo "== interpreter yang tersedia =="
+          which python2 python python3 || true
+          # Buang CRLF kalau ada, lalu pastikan bisa dieksekusi
+          find tools/dct -name '*.py' -exec sed -i 's/\r$//' {} + 2>/dev/null || true
+          chmod +x tools/dct/DrvGen.py 2>/dev/null || true
 
       - name: "⚙ make defconfig"
         working-directory: ${{ env.KERNEL_NAME }}
