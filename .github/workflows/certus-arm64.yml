@@ -176,6 +176,12 @@ jobs:
             done
           done
 
+      - name: "debug toolchain"
+        run: |
+         ls zyc_clang/bin | grep -E '^(aarch64|arm)-' || echo "TIDAK ADA binutils prefix aarch64/arm"
+         zyc_clang/bin/clang --version
+         ls zyc_clang/bin/aarch64-linux-gnu-elfedit || echo "elfedit tidak ada"
+
       - name: "⚙ configure build"
         id: generate-args
         run: |
