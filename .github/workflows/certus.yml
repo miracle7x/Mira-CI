@@ -152,7 +152,6 @@ jobs:
           sudo ln -sf /usr/share/zoneinfo/Asia/Jakarta /etc/localtime
           sudo apt update -y
           sudo apt install -y bc cpio flex bison git python-is-python3 tar aria2 perl wget curl lz4 libssl-dev zip
-          python2 --version
 
       - name: "✦ clone anykernel3"
         run: |
